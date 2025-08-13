@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard de Avaliações Escolares - Sistema Inteligente de Análise Educacional">
+    <meta name="keywords" content="educação, avaliações, dashboard, análise de dados, desempenho escolar">
+    <meta name="author" content="Secretaria Municipal de Educação de Aripuanã">
+    
+    <!-- CSP Atualizado para permitir fontes e scripts externos -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; 
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; 
+        img-src 'self' data: https:; 
+        connect-src 'self' http://localhost:3000 https:;
+    ">
+    
+    <title>Dashboard Inteligente - Sistema de Avaliações Escolares</title>
+    
+    <!-- Fontes Modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+    <!-- Skip Link para Acessibilidade -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+    
+    <!-- Efeito de Partículas no Background -->
+    <div class="particles-bg"></div>
+    
+    <!-- Header Modernizado -->
+    <header class="modern-header">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Dashboard Inteligente</h1>
+                        <p>Sistema de Avaliações Escolares - Aripuanã/MT</p>
+                    </div>
+                </div>
+                
+                <nav class="header-nav">
+                    <button class="nav-btn" id="refresh-btn" title="Atualizar Dados">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="nav-btn" id="fullscreen-btn" title="Tela Cheia">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <div class="theme-toggle">
+                        <input type="checkbox" id="theme-switch" class="theme-switch">
+                        <label for="theme-switch" class="theme-label">
+                            <i class="fas fa-sun"></i>
+                            <i class="fas fa-moon"></i>
+                            <span class="toggle-ball"></span>
+                        </label>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section com Estatísticas Rápidas -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-stats">
+                <div class="stat-card animated-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="total-students">0</span>
+                        <span class="stat-label">Total de Alunos</span>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+                
+                <div class="stat-card animated-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="total-schools">0</span>
+                        <span class="stat-label">Escolas Ativas</span>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 5%
+                    </div>
+                </div>
+                
+                <div class="stat-card animated-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="total-evaluations">0</span>
+                        <span class="stat-label">Avaliações Realizadas</span>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 23%
+                    </div>
+                </div>
+                
+                <div class="stat-card animated-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="proficiency-rate">0%</span>
+                        <span class="stat-label">Taxa de Proficiência</span>
+                    </div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-arrow-down"></i> 3%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main id="main-content" class="modern-main">
+        <div class="main-container">
+            
+            <!-- Seção de Filtros Modernizada -->
+<section class="filters-section glass-card">
+    <div class="section-header">
+        <h2 class="section-title">
+            <i class="fas fa-filter"></i>
+            Filtros Inteligentes
+        </h2>
+        <button class="btn-text" id="toggle-filters">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+    
+    <div class="filters-content" id="filters-content">
+        <!-- Filtros Principais -->
+        <div class="filters-row">
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-calendar"></i>
+                    Ano de Aplicação
+                </label>
+                <select id="application-year-filter" class="modern-select">
+                    <option value="">Selecione o ano...</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="evaluation-filter-container" style="display: none;">
+                <label class="filter-label">
+                    <i class="fas fa-tasks"></i>
+                    Avaliação
+                </label>
+                <select id="evaluation-filter" class="modern-select">
+                    <option value="">Selecione a avaliação...</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Filtros de Localização -->
+        <div class="filters-row" id="location-filters" style="display: none;">
+            <div class="filter-group" id="school-filter-container">
+                <label class="filter-label">
+                    <i class="fas fa-school"></i>
+                    Escola
+                </label>
+                <select id="school-filter" class="modern-select">
+                    <option value="">Todas as escolas</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="year-filter-container">
+                <label class="filter-label">
+                    <i class="fas fa-graduation-cap"></i>
+                    Etapa de Ensino
+                </label>
+                <select id="year-filter" class="modern-select">
+                    <option value="">Todas as etapas</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="turma-filter-container">
+                <label class="filter-label">
+                    <i class="fas fa-users"></i>
+                    Turma
+                </label>
+                <select id="turma-filter" class="modern-select">
+                    <option value="">Todas as turmas</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Filtros Demográficos -->
+        <div class="filters-row" id="demographic-filters" style="display: none;">
+            <div class="filter-group" id="level-filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-chart-bar"></i>
+                    Nível/Classificação
+                </label>
+                <select id="level-filter" class="modern-select">
+                    <option value="">Todos os níveis</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="nse-filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    Beneficiário Social
+                </label>
+                <select id="nse-filter" class="modern-select">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="cor-raca-filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-palette"></i>
+                    Cor/Raça
+                </label>
+                <select id="cor-raca-filter" class="modern-select">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="inclusao-filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-wheelchair"></i>
+                    Aluno PCD
+                </label>
+                <select id="inclusao-filter" class="modern-select">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" id="transporte-filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-bus"></i>
+                    Transporte Escolar
+                </label>
+                <select id="transporte-filter" class="modern-select">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Botões de Ação -->
+        <div class="filters-actions">
+            <button id="apply-filters" class="btn-primary">
+                <i class="fas fa-check"></i>
+                Aplicar Filtros
+            </button>
+            <button id="clear-filters" class="btn-secondary">
+                <i class="fas fa-times"></i>
+                Limpar Tudo
+            </button>
+        </div>
+    </div>
+</section>
+
+            <!-- Tabela de Dados Modernizada -->
+            <section class="data-section glass-card">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-table"></i>
+                        Dados Detalhados
+                    </h2>
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="student-search" placeholder="Buscar aluno..." class="modern-input">
+                        </div>
+                        <select id="rows-per-page" class="modern-select compact">
+                            <option value="15">15 por página</option>
+                            <option value="30">30 por página</option>
+                            <option value="50">50 por página</option>
+                            <option value="100">100 por página</option>
+                        </select>
+                        <button class="btn-icon" id="export-btn" title="Exportar dados">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-wrapper">
+                    <div id="data-table-container"></div>
+                </div>
+                
+                <div id="pagination-controls" class="modern-pagination"></div>
+            </section>
+
+            <!-- Gráfico de Desempenho por Escola -->
+            <section id="school-performance-section" class="dashboard-section" style="display: none;">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Desempenho Comparativo por Escola
+                        </h2>
+                    </div>
+                    <div class="chart-container large">
+                        <canvas id="schoolPerformanceChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Modernizado -->
+    <footer class="modern-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Sistema de Avaliação</h4>
+                    <p>Desenvolvido para otimizar o acompanhamento educacional</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <a href="/login.html" class="footer-link">
+                        <i class="fas fa-sign-in-alt"></i> Área Administrativa
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>Secretaria Municipal de Educação de Aripuanã</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Sistema de Avaliação Educacional. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-indicator" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loading-message">Carregando dados...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="notification-container" class="toast-container"></div>
+
+    <!-- Hidden elements mantidos por compatibilidade -->
+    <div id="main-filters-container" style="display: none;"></div>
+    <div id="demographic-filters-container" style="display: none;"></div>
+    <div id="top-scroll-container" style="display: none;">
+        <div id="top-scroll-bar"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script type="module" src="js/script.js"></script>
+    
+    <!-- Script adicional para animações -->
+    <script>
+        // Animação de números
+        function animateNumber(element, target) {
+            const duration = 2000;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString('pt-BR');
+            }, 16);
+        }
+        
+        // Inicializar animações quando a página carregar
+        window.addEventListener('DOMContentLoaded', () => {
+            // Animar números das estatísticas
+            setTimeout(() => {
+                animateNumber(document.getElementById('total-students'), 14198);
+                animateNumber(document.getElementById('total-schools'), 25);
+                animateNumber(document.getElementById('total-evaluations'), 150);
+                document.getElementById('proficiency-rate').textContent = '67%';
+            }, 500);
+            
+            // Toggle de filtros
+            document.getElementById('toggle-filters')?.addEventListener('click', function() {
+                const content = document.getElementById('filters-content');
+                const icon = this.querySelector('i');
+                
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    icon.className = 'fas fa-chevron-up';
+                } else {
+                    content.style.display = 'none';
+                    icon.className = 'fas fa-chevron-down';
+                }
+            });
+            
+            // Fullscreen toggle
+            document.getElementById('fullscreen-btn')?.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+            
+            // Refresh button
+            document.getElementById('refresh-btn')?.addEventListener('click', () => {
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Gestão</title>
+    <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Painel de Gestão</h1>
+            <div class="header-actions">
+                <button id="logout-btn" class="button logout-button" title="Sair">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+        <h2>Selecione uma área para gerenciar</h2>
+    </header>
+
+    <main>
+        <nav class="panel-grid">
+            <a href="/index.html" class="panel-card">
+                <span class="icon">📊</span>
+                <h3>Dashboard Público</h3>
+                <p>Visualizar os painéis de dados e gráficos de resultados.</p>
+            </a>
+            <a href="/gestao_alunos.html" class="panel-card">
+                <span class="icon">🎓</span>
+                <h3>Gerenciar Alunos</h3>
+                <p>Adicionar, editar e visualizar informações dos alunos.</p>
+            </a>
+            <a href="/gestao_avaliacoes.html" class="panel-card">
+                <span class="icon">📝</span>
+                <h3>Gerenciar Avaliações</h3>
+                <p>Criar novas avaliações e configurar seus níveis de desempenho.</p>
+            </a>
+            <a href="/lancar_resultados.html" class="panel-card">
+                <span class="icon">🚀</span>
+                <h3>Lançar Resultados</h3>
+                <p>Registrar os resultados dos alunos nas avaliações aplicadas.</p>
+            </a>
+            <a href="/gestao_usuarios.html" class="panel-card">
+                <span class="icon">👤</span>
+                <h3>Gerenciar Usuários</h3>
+                <p>Adicionar ou remover usuários do sistema (Super Admin).</p>
+            </a>
+        </nav>
+    </main>
+    
+    <footer>
+        <p>Sistema de Gestão de Avaliações © 2025</p>
+    </footer>
+
+    <script type="module" src="js/painel_gestao.js"></script>
+</body>
+</html>
