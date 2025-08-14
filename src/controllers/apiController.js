@@ -368,11 +368,11 @@ const getEscalaById = (req, res) => {
     try { 
         const { id } = req.params; 
         const stmt = db.prepare('SELECT descricao_resultado, ordem, cor FROM Niveis_Escala WHERE id_escala = ? ORDER BY ordem'); 
-        const niveis = stmt.all(id); 
-        if (!niveis) { 
-            return res.status(404).json({ error: 'Modelo de escala não encontrado.' }); 
-        } 
-        res.status(200).json(niveis); 
+        const niveis = stmt.all(id);
+        if (!niveis || niveis.length === 0) {
+            return res.status(404).json({ error: 'Modelo de escala não encontrado.' });
+        }
+        res.status(200).json(niveis);
     } catch (error) { 
         res.status(500).json({ error: 'Erro ao buscar detalhes do modelo de escala.' }); 
     } 
